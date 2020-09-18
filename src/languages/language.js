@@ -8,7 +8,7 @@ export default class BananaLanguage {
   /**
    * Plural form transformations, needed for some languages.
    *
-   * @param {integer} count Non-localized quantifier
+   * @param {number} count Non-localized quantifier
    * @param {Array} forms List of plural forms
    * @return {string} Correct form for quantifier in this language
   */
@@ -21,13 +21,13 @@ export default class BananaLanguage {
 
     // Handle for Explicit 0= & 1= values
     for (let index = 0; index < forms.length; index++) {
-      let form = forms[ index ]
+      const form = forms[index]
       if (explicitPluralPattern.test(form)) {
-        let formCount = parseInt(form.slice(0, form.indexOf('=')), 10)
+        const formCount = parseInt(form.slice(0, form.indexOf('=')), 10)
         if (formCount === count) {
           return (form.slice(form.indexOf('=') + 1))
         }
-        forms[ index ] = undefined
+        forms[index] = undefined
       }
     }
 
@@ -36,19 +36,19 @@ export default class BananaLanguage {
     let pluralFormIndex = this.getPluralForm(count, this.locale)
     pluralFormIndex = Math.min(pluralFormIndex, forms.length - 1)
 
-    return forms[ pluralFormIndex ]
+    return forms[pluralFormIndex]
   }
 
   /**
    * For the number, get the plural for index
    *
-   * @param {integer} number
+   * @param {number} number
    * @param {string} locale
-   * @return {integer} plural form index
+   * @return {number} plural form index
    */
   getPluralForm (number, locale) {
     // Allowed forms as per CLDR spec
-    const pluralForms = [ 'zero', 'one', 'two', 'few', 'many', 'other' ]
+    const pluralForms = ['zero', 'one', 'two', 'few', 'many', 'other']
     // Create an instance of Intl PluralRules. If the locale is invalid or
     // not supported, it fallbacks to `en`.
     const pluralRules = new Intl.PluralRules(locale)
@@ -68,13 +68,13 @@ export default class BananaLanguage {
    * Converts a number using digitTransformTable.
    *
    * @param {number} num Value to be converted
-   * @param {boolean} integer Convert the return value to an integer
-   * @return {string} The number converted into a String.
+   * @param {boolean} number Convert the return value to an number
+   * @return {string|number} The number converted into a String.
    */
-  convertNumber (num, integer) {
+  convertNumber (num, number) {
     // Set the target Transform table:
     let transformTable = this.digitTransformTable(this.locale)
-    let numberString = String(num)
+    const numberString = String(num)
     let convertedNumber = ''
 
     if (!transformTable) {
@@ -82,29 +82,29 @@ export default class BananaLanguage {
     }
 
     // Check if the restore to Latin number flag is set:
-    if (integer) {
-      if (parseFloat(num, 10) === num) {
+    if (number) {
+      if (parseFloat(num) === num) {
         return num
       }
 
-      let tmp = []
+      const tmp = []
 
-      for (let item in transformTable) {
-        tmp[ transformTable[ item ] ] = item
+      for (const item in transformTable) {
+        tmp[transformTable[item]] = item
       }
 
       transformTable = tmp
     }
 
     for (let i = 0; i < numberString.length; i++) {
-      if (transformTable[ numberString[ i ] ]) {
-        convertedNumber += transformTable[ numberString[ i ] ]
+      if (transformTable[numberString[i]]) {
+        convertedNumber += transformTable[numberString[i]]
       } else {
-        convertedNumber += numberString[ i ]
+        convertedNumber += numberString[i]
       }
     }
 
-    return integer ? parseFloat(convertedNumber, 10) : convertedNumber
+    return number ? parseFloat(convertedNumber) : convertedNumber
   }
 
   /**
@@ -139,18 +139,18 @@ export default class BananaLanguage {
     }
 
     while (forms.length < 2) {
-      forms.push(forms[ forms.length - 1 ])
+      forms.push(forms[forms.length - 1])
     }
 
     if (gender === 'male') {
-      return forms[ 0 ]
+      return forms[0]
     }
 
     if (gender === 'female') {
-      return forms[ 1 ]
+      return forms[1]
     }
 
-    return (forms.length === 3) ? forms[ 2 ] : forms[ 0 ]
+    return (forms.length === 3) ? forms[2] : forms[0]
   }
 
   /**
@@ -162,10 +162,10 @@ export default class BananaLanguage {
    * representation, or boolean false if there is no information.
    */
   digitTransformTable (language) {
-    if (!DIGITTRANSFORMTABLE[ language ]) {
+    if (!DIGITTRANSFORMTABLE[language]) {
       return false
     }
 
-    return DIGITTRANSFORMTABLE[ language ].split('')
+    return DIGITTRANSFORMTABLE[language].split('')
   }
 }

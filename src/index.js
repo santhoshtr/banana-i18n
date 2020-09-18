@@ -45,13 +45,13 @@ export default class Banana {
     while (locale) {
       // Iterate through locales starting at most-specific until
       // localization is found. As in fi-Latn-FI, fi-Latn and fi.
-      let localeParts = locale.split('-')
+      const localeParts = locale.split('-')
       let localePartIndex = localeParts.length
 
       do {
-        let tryingLocale = localeParts.slice(0, localePartIndex).join('-')
+        const tryingLocale = localeParts.slice(0, localePartIndex).join('-')
 
-        let message = this.messageStore.getMessage(messageKey, tryingLocale)
+        const message = this.messageStore.getMessage(messageKey, tryingLocale)
 
         if (message) {
           return message

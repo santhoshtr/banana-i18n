@@ -9,7 +9,7 @@ export default class BananaParser {
 
   parse (message, params) {
     if (message.includes('{{') || message.includes('[')) {
-      let ast = new BananaMessage(message)
+      const ast = new BananaMessage(message)
       return this.emitter.emit(ast, params)
     } else {
       return this.simpleParse(message, params)
@@ -18,8 +18,8 @@ export default class BananaParser {
 
   simpleParse (message, parameters) {
     return message.replace(/\$(\d+)/g, (str, match) => {
-      let index = parseInt(match, 10) - 1
-      return parameters[ index ] !== undefined ? parameters[ index ] : '$' + match
+      const index = parseInt(match, 10) - 1
+      return parameters[index] !== undefined ? parameters[index] : '$' + match
     })
   }
 }
