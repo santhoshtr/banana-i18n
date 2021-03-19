@@ -2,12 +2,22 @@
   "name": "banana-i18n",
   "version": "2.0.0",
   "description": "Banana Internationalization library",
-  "main": "dist/banana-i18n.js",
+  "main": "dist/banana-i18n.umd.js",
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/banana-i18n.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-lib.es.js",
+      "require": "./dist/my-lib.umd.js"
+    }
+  },
   "scripts": {
     "test": "npm run lint && mocha",
     "lint": "eslint src test",
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "vite",
+    "build": "vite build"
   },
   "keywords": [
     "internationalization",
@@ -25,9 +35,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^11.2.0",
+    "vite": "^2.1.0",
     "esbuild": "^0.8.55",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
@@ -36,8 +44,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "esm": "^3.2.25",
-    "mocha": "^8.3.0",
-    "rollup": "^2.40.0",
-    "rollup-plugin-esbuild": "^2.6.1"
+    "mocha": "^8.3.0"
   }
 }
